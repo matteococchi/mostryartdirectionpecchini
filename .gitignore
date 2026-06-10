@@ -1,0 +1,4 @@
+*.tmp
+_extract.txt
+.DS_Store
+Thumbs.db
