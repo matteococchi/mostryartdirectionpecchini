@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mostry — Brand Analysis | Art Direction II</title>
+<link rel="icon" href="assets/images/faviconmostry.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800;900&family=Space+Mono:wght@400;700&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+/* ═══════════════════════ NEO-BRUTALIST POP ═══════════════════════ */
+:root{
+  --bg:#0B0910;           /* sfondo scuro Mostry */
+  --paper:#F2EEFA;        /* chiaro (testo su scuro) */
+  --ink:#0A0A0F;          /* nero: bordi e ombre */
+  --violet:#6C2BD9;       /* primary */
+  --violet-light:#8B5CF6;
+  --magenta:#F72585;      /* accent */
+  --fuchsia:#F700FF;      /* accent2 */
+  /* blocchi secondari: tinte derivate dal brand, testo scuro leggibile */
+  --yellow:#B89CEE;
+  --lime:#D6C7F7;
+  --cyan:#F4B6D9;
+  --white:#FFFFFF;
+  --bd:3px solid var(--ink);
+  --bd-thick:4px solid var(--ink);
+  --sh:6px 6px 0 var(--ink);
+  --sh-lg:10px 10px 0 var(--ink);
+  --sh-sm:4px 4px 0 var(--ink);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Archivo',sans-serif; background:var(--bg); color:var(--ink);
+  line-height:1.55; overflow-x:hidden; position:relative;
+  /* griglia a puntini di sfondo */
+  background-image:radial-gradient(rgba(180,160,240,.12) 1.1px, transparent 1.1px);
+  background-size:26px 26px; background-position:-13px -13px;
+}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+::selection{background:var(--magenta);color:#fff}
+
+/* scrollbar chunky */
+::-webkit-scrollbar{width:14px}
+::-webkit-scrollbar-track{background:var(--bg);border-left:var(--bd)}
+::-webkit-scrollbar-thumb{background:var(--violet);border:var(--bd)}
+
+/* ─── typografia ─── */
+h1,h2,h3,h4{font-family:'Unbounded',sans-serif;line-height:.98;letter-spacing:-.01em}
+.mono{font-family:'Space Mono',monospace}
+
+/* ═══════════════════════ PROGRESS ═══════════════════════ */
+#prog{position:fixed;top:0;left:0;height:8px;width:0;z-index:300;background:var(--magenta);border-bottom:var(--bd);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+
+/* ═══════════════════════ TOPBAR ═══════════════════════ */
+.topbar{position:fixed;top:8px;left:0;right:0;z-index:250;display:flex;align-items:center;justify-content:space-between;
+  padding:.7rem 1.5rem;background:var(--violet);border-bottom:var(--bd-thick)}
+.topbar .brand{display:flex;align-items:center;gap:.6rem;font-family:'Unbounded';font-weight:800;font-size:1.1rem;color:#fff;text-decoration:none;text-transform:uppercase}
+.topbar .brand img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:var(--bd);background:#fff}
+.topbar .tag{font-family:'Space Mono';font-weight:700;font-size:.66rem;background:var(--ink);color:var(--yellow);padding:.2rem .5rem;text-transform:uppercase}
+.btn-top{font-family:'Space Mono';font-weight:700;font-size:.74rem;text-transform:uppercase;text-decoration:none;color:var(--ink);
+  background:#fff;border:var(--bd);box-shadow:var(--sh-sm);padding:.55rem .9rem;transition:transform .12s,box-shadow .12s;display:inline-flex;gap:.4rem;align-items:center}
+.btn-top:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);background:var(--lime)}
+.btn-top:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+
+/* ═══════════════════════ SIDE NAV ═══════════════════════ */
+.dots{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px}
+.dots a{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono';font-weight:700;font-size:.7rem;
+  color:var(--ink);background:#fff;border:var(--bd);text-decoration:none;transition:.12s;position:relative}
+.dots a.on{background:var(--magenta);color:#fff;transform:rotate(-6deg) scale(1.12)}
+.dots a span{position:absolute;right:38px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:.66rem;
+  background:var(--ink);color:#fff;padding:.25rem .5rem;opacity:0;pointer-events:none;transition:.15s;text-transform:uppercase}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ═══════════════════════ LAYOUT ═══════════════════════ */
+section{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:5.5rem 1.5rem}
+.eyebrow{display:inline-block;font-family:'Space Mono';font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--violet);color:#fff;border:var(--bd);box-shadow:var(--sh-sm);padding:.4rem .8rem;margin-bottom:1.2rem}
+.eyebrow .n{color:var(--yellow)}
+h2.title{font-weight:900;font-size:clamp(2rem,6vw,4rem);text-transform:uppercase;margin-bottom:.6rem;max-width:14ch;color:var(--paper)}
+.hl{background:var(--magenta);color:#fff;padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hl.v{background:var(--violet)}.hl.y{background:var(--yellow);color:var(--ink)}.hl.c{background:var(--cyan);color:var(--ink)}.hl.l{background:var(--lime);color:var(--ink)}
+.sub{font-size:1.05rem;max-width:600px;font-weight:500;color:var(--paper)}
+.head{margin-bottom:2.8rem}
+
+/* card brutale generica */
+.box{background:#fff;border:var(--bd);box-shadow:var(--sh);transition:transform .14s,box-shadow .14s}
+.box.hover:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+
+/* ═══════════════════════ HERO ═══════════════════════ */
+.hero{padding-top:8rem;min-height:100vh;display:flex;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:2rem;width:100%;align-items:center}
+.sticker{display:inline-block;font-family:'Space Mono';font-weight:700;font-size:.78rem;text-transform:uppercase;
+  background:var(--lime);border:var(--bd);box-shadow:var(--sh-sm);padding:.5rem .9rem;transform:rotate(-3deg);margin-bottom:1.4rem}
+.hero h1{font-weight:900;font-size:clamp(3rem,11vw,7.5rem);text-transform:uppercase;letter-spacing:-.03em;color:var(--paper)}
+.hero h1 .line2{display:inline-block;background:var(--magenta);color:#fff;padding:0 .15em;transform:rotate(-1.5deg);margin-top:.1em;box-shadow:var(--sh)}
+.hero .lead{font-size:1.15rem;font-weight:600;max-width:520px;margin:1.8rem 0;color:var(--paper)}
+.hero .lead b{background:var(--yellow);color:var(--ink);padding:0 .15em}
+.hero-tags{display:flex;flex-wrap:wrap;gap:.6rem}
+.htag{font-family:'Space Mono';font-weight:700;font-size:.74rem;text-transform:uppercase;background:#fff;border:var(--bd);box-shadow:var(--sh-sm);padding:.45rem .8rem}
+.htag i{margin-right:.4rem}
+.htag.m{background:var(--magenta);color:#fff}.htag.c{background:var(--cyan)}.htag.y{background:var(--yellow)}
+.hero-art{position:relative}
+.hero-frame{border:var(--bd-thick);box-shadow:var(--sh-lg);background:var(--cyan);padding:0;overflow:hidden;transform:rotate(2deg)}
+.hero-frame img{width:100%;display:block}
+.hero-badge{position:absolute;bottom:-18px;left:-18px;background:var(--magenta);color:#fff;font-family:'Unbounded';font-weight:800;
+  border:var(--bd);box-shadow:var(--sh);padding:.7rem 1rem;transform:rotate(-5deg);font-size:.85rem;text-transform:uppercase}
+@media(max-width:820px){.hero-grid{grid-template-columns:1fr}.hero-art{max-width:320px}}
+
+/* ═══════════════════════ MARQUEE ═══════════════════════ */
+.marquee{position:relative;z-index:2;background:var(--ink);color:var(--paper);border-top:3px solid var(--violet);border-bottom:3px solid var(--violet);overflow:hidden;padding:.7rem 0}
+.marquee .track{display:inline-flex;white-space:nowrap;animation:scrollx 22s linear infinite;font-family:'Unbounded';font-weight:800;font-size:1.1rem;text-transform:uppercase}
+.marquee .track span{padding:0 1.2rem}
+.marquee .track span i{color:var(--magenta)}
+@keyframes scrollx{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════ GRID HELPERS ═══════════════════════ */
+.grid{display:grid;gap:1.3rem}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+.pad{padding:1.6rem}
+.card-ic{width:54px;height:54px;border:var(--bd);box-shadow:var(--sh-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+.card h3{font-size:1.05rem;text-transform:uppercase;margin-bottom:.5rem}
+.card p{font-weight:500;font-size:.94rem}
+
+/* ═══════════════════════ SCENARIO ═══════════════════════ */
+.scenario-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:1.4rem;align-items:stretch}
+.scenario-grid .big-quote{padding:2.2rem;background:var(--yellow)}
+.scenario-grid .big-quote .small{font-weight:600;margin-bottom:1.2rem}
+.scenario-grid .big-quote .punch{font-family:'Unbounded';font-weight:800;font-size:1.6rem;line-height:1.15;text-transform:uppercase}
+.scenario-grid .big-quote .punch em{font-style:normal;background:var(--ink);color:var(--yellow);padding:0 .12em}
+.scenario-grid .art{background:var(--violet);display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.scenario-grid .art img{max-width:88%}
+@media(max-width:760px){.scenario-grid{grid-template-columns:1fr}}
+
+/* ═══════════════════════ PESTLE ═══════════════════════ */
+.pestle{display:grid;grid-template-columns:240px 1fr;gap:1.3rem}
+.ptabs{display:flex;flex-direction:column;gap:.7rem}
+.ptab{display:flex;align-items:center;gap:.7rem;font-family:'Space Mono';font-weight:700;font-size:.86rem;text-transform:uppercase;
+  background:#fff;border:var(--bd);box-shadow:var(--sh-sm);padding:.8rem .9rem;cursor:pointer;text-align:left;transition:.12s}
+.ptab i{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:var(--bd);background:var(--paper);font-size:.85rem}
+.ptab:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.ptab.on{background:var(--magenta);color:#fff}
+.ptab.on i{background:var(--ink);color:var(--magenta)}
+.pcontent{background:#fff;border:var(--bd);box-shadow:var(--sh);padding:2rem;min-height:320px}
+.ppanel{display:none}.ppanel.on{display:block;animation:pop .35s ease}
+@keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ppanel h4{font-size:1.5rem;text-transform:uppercase;margin-bottom:1.2rem;display:inline-block;background:var(--yellow);padding:.1em .3em}
+.ppanel ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
+.ppanel li{display:flex;gap:.9rem;align-items:flex-start;font-weight:500;font-size:.96rem}
+.ppanel li b{font-weight:800}
+.trend{font-family:'Space Mono';font-weight:700;font-size:.62rem;padding:.25rem .45rem;border:2px solid var(--ink);flex-shrink:0;margin-top:.1rem;text-transform:uppercase}
+.trend.up{background:var(--lime)}.trend.new{background:var(--magenta);color:#fff}.trend.flat{background:#fff}
+@media(max-width:760px){.pestle{grid-template-columns:1fr}.ptabs{flex-direction:row;flex-wrap:wrap}.ptab{flex:1;min-width:130px}}
+
+/* ═══════════════════════ PORTER ═══════════════════════ */
+.porter{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem}
+.pf{background:#fff;border:var(--bd);box-shadow:var(--sh);padding:1.3rem;transition:.14s}
+.pf:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+.pf .top{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.6rem}
+.pf h4{font-size:.95rem;text-transform:uppercase;display:flex;gap:.5rem;align-items:center}
+.pf p{font-weight:500;font-size:.86rem}
+.intensity{font-family:'Space Mono';font-weight:700;font-size:.6rem;padding:.22rem .5rem;border:2px solid var(--ink);text-transform:uppercase}
+.intensity.alta{background:var(--magenta);color:#fff}
+.intensity.media{background:var(--yellow)}
+.intensity.medalta{background:var(--violet);color:#fff}
+.porter .core{grid-column:2;grid-row:2;background:var(--violet);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border:var(--bd);box-shadow:var(--sh);padding:1.4rem}
+.porter .core img{width:60px;height:60px;border-radius:50%;border:3px solid #fff;object-fit:cover;margin-bottom:.6rem;background:#fff}
+.porter .core h4{font-size:1.3rem;text-transform:uppercase;color:#fff}
+.porter .core p{font-family:'Space Mono';font-size:.66rem;text-transform:uppercase;margin-top:.3rem}
+@media(max-width:760px){.porter{grid-template-columns:1fr}.porter .core{grid-column:1;grid-row:auto}}
+
+/* ═══════════════════════ COMPETITOR ═══════════════════════ */
+.ctabs{display:flex;gap:.7rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.ctab{font-family:'Space Mono';font-weight:700;font-size:.8rem;text-transform:uppercase;background:#fff;border:var(--bd);box-shadow:var(--sh-sm);
+  padding:.6rem 1.1rem;cursor:pointer;transition:.12s}
+.ctab:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.ctab.on{background:var(--violet);color:#fff}
+.cset{display:none}.cset.on{display:grid;gap:1.3rem;grid-template-columns:repeat(3,1fr);animation:pop .35s}
+@media(max-width:760px){.cset.on{grid-template-columns:1fr}}
+
+/* ═══════════════════════ SWOT ═══════════════════════ */
+.swot{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+.q{border:var(--bd);box-shadow:var(--sh);padding:1.7rem;transition:.14s}
+.q:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+.q.s{background:var(--lime)}.q.w{background:var(--yellow)}.q.o{background:var(--cyan)}.q.t{background:var(--magenta);color:#fff}
+.q .lab{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;font-family:'Unbounded';font-weight:800;font-size:1.3rem;text-transform:uppercase}
+.q .lab .b{width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;background:var(--ink);color:#fff;border:var(--bd)}
+.q.t .lab .b{background:#fff;color:var(--magenta)}
+.q ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.q li{font-weight:600;font-size:.92rem;display:flex;gap:.55rem;align-items:flex-start}
+.q li::before{content:'■';font-size:.6rem;margin-top:.35rem}
+@media(max-width:760px){.swot{grid-template-columns:1fr}}
+
+/* ═══════════════════════ PERSONAS ═══════════════════════ */
+.persona{background:#fff;border:var(--bd);box-shadow:var(--sh);padding:1.7rem;transition:.14s}
+.persona:hover{transform:translate(-3px,-3px) rotate(-1deg);box-shadow:9px 9px 0 var(--ink)}
+.persona .ava{width:66px;height:66px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;border:var(--bd);box-shadow:var(--sh-sm);margin-bottom:1rem}
+.persona:nth-child(1) .ava{background:var(--yellow)}.persona:nth-child(2) .ava{background:var(--cyan)}.persona:nth-child(3) .ava{background:var(--lime)}
+.persona h3{font-size:1.15rem;text-transform:uppercase;margin-bottom:.15rem}
+.persona .role{font-family:'Space Mono';font-weight:700;font-size:.72rem;text-transform:uppercase;color:var(--magenta);margin-bottom:.9rem}
+.persona p{font-weight:500;font-size:.9rem}
+.persona .tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+.persona .tags span{font-family:'Space Mono';font-size:.66rem;font-weight:700;text-transform:uppercase;border:2px solid var(--ink);padding:.25rem .5rem;background:var(--paper)}
+
+/* ═══════════════════════ PAIN → VALUE ═══════════════════════ */
+.pv{display:flex;flex-direction:column;gap:1rem}
+.pv-row{display:grid;grid-template-columns:1fr 60px 1fr;gap:.6rem;align-items:stretch}
+.pv-row .pain,.pv-row .val{border:var(--bd);box-shadow:var(--sh-sm);padding:1.1rem 1.3rem;display:flex;flex-direction:column;justify-content:center}
+.pv-row .pain{background:#fff}
+.pv-row .val{background:var(--lime)}
+.pv-row .lbl{font-family:'Space Mono';font-weight:700;font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem}
+.pv-row .pain .lbl{color:var(--magenta)}
+.pv-row .txt{font-weight:700;font-size:.95rem}
+.pv-row .arrow{display:flex;align-items:center;justify-content:center;font-size:1.4rem;background:var(--ink);color:var(--lime);border:var(--bd)}
+@media(max-width:760px){.pv-row{grid-template-columns:1fr;gap:.4rem}.pv-row .arrow{height:34px;transform:rotate(90deg)}}
+
+/* ═══════════════════════ VALUE CURVE ═══════════════════════ */
+.curve-wrap{background:#fff;border:var(--bd);box-shadow:var(--sh-lg);padding:2rem 1.4rem}
+.svg-chart{width:100%;height:auto;display:block}
+.svg-chart .axis{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 4;opacity:.35}
+.svg-chart .axis0{stroke:var(--ink);stroke-width:2.5;stroke-dasharray:none;opacity:1}
+.svg-chart .axlab{fill:var(--ink);font-size:11px;font-family:'Space Mono';font-weight:700}
+.svg-chart polyline{fill:none;stroke-width:4;stroke-linejoin:round;stroke-linecap:round}
+.svg-chart .line-anim{stroke-dasharray:2400;stroke-dashoffset:2400;transition:stroke-dashoffset 1.7s cubic-bezier(.6,0,.2,1)}
+.svg-chart.drawn .line-anim{stroke-dashoffset:0}
+.svg-chart rect.mk{opacity:0;transition:opacity .4s .9s}
+.svg-chart.drawn rect.mk{opacity:1}
+.legend{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:1.4rem}
+.legend span{font-family:'Space Mono';font-weight:700;font-size:.76rem;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;border:2px solid var(--ink);padding:.35rem .7rem;background:var(--paper)}
+.legend i{width:22px;height:8px;display:inline-block;border:2px solid var(--ink)}
+
+/* ═══════════════════════ POSITIONING ═══════════════════════ */
+.position{background:var(--violet);color:#fff;border:var(--bd-thick);box-shadow:var(--sh-lg);padding:2.6rem;text-align:center}
+.position .stmt{font-family:'Unbounded';font-weight:700;font-size:clamp(1.25rem,3vw,2rem);line-height:1.45;text-transform:uppercase}
+.position .stmt b{background:var(--yellow);color:var(--ink);padding:0 .12em}
+.pos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;margin-top:2rem}
+.pos-grid .pg{background:#fff;color:var(--ink);border:var(--bd);box-shadow:var(--sh-sm);padding:1rem .8rem;text-align:left}
+.pos-grid .pg .k{font-family:'Space Mono';font-weight:700;font-size:.62rem;text-transform:uppercase;color:var(--magenta);margin-bottom:.4rem}
+.pos-grid .pg .v{font-weight:700;font-size:.84rem}
+@media(max-width:760px){.pos-grid{grid-template-columns:1fr 1fr}}
+
+/* ═══════════════════════ BMC ═══════════════════════ */
+.bmc{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:1rem}
+.blk{background:#fff;border:var(--bd);box-shadow:var(--sh-sm);padding:1.2rem;transition:.14s}
+.blk:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.blk h4{font-size:.82rem;text-transform:uppercase;margin-bottom:.7rem;display:flex;gap:.45rem;align-items:center}
+.blk h4 i{color:var(--magenta)}
+.blk ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.blk li{font-weight:500;font-size:.8rem;padding-left:.9rem;position:relative}
+.blk li::before{content:'▸';position:absolute;left:0;color:var(--violet);font-weight:700}
+.b-partner{grid-row:span 2}.b-value{grid-row:span 2;background:var(--yellow)}.b-clients{grid-row:span 2;background:var(--cyan)}
+.b-cost{grid-column:span 2}.b-rev{grid-column:span 2;background:var(--lime)}
+@media(max-width:980px){.bmc{grid-template-columns:1fr 1fr}.blk,.b-partner,.b-value,.b-clients,.b-cost,.b-rev{grid-row:auto;grid-column:auto}}
+@media(max-width:560px){.bmc{grid-template-columns:1fr}}
+
+/* ═══════════════════════ FOOTER ═══════════════════════ */
+footer{position:relative;z-index:2;background:var(--ink);color:var(--paper);border-top:4px solid var(--violet);margin-top:4rem;text-align:center;padding:4rem 1.5rem 3rem}
+footer .big{font-family:'Unbounded';font-weight:900;font-size:clamp(2.6rem,12vw,7rem);text-transform:uppercase;color:var(--lime);line-height:.9}
+footer .big span{color:var(--magenta)}
+footer p{font-family:'Space Mono';font-size:.78rem;text-transform:uppercase;margin-top:1rem;opacity:.85}
+
+/* ═══════════════════════ REVEAL ═══════════════════════ */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.marquee .track{animation:none}}
+
+/* ═══════════════ PALETTE OTTIMIZZATA · dark premium + neon ═══════════════ */
+/* tinte secondarie → colori brand pieni (niente pastelli slavati) */
+:root{ --yellow:#8B5CF6; --lime:#6C2BD9; --cyan:#F700FF; }
+
+/* sfondo atmosferico: aloni viola/magenta + griglia a puntini */
+body{
+  background:
+    radial-gradient(58% 42% at 6% -2%, rgba(124,58,237,.30), transparent 60%),
+    radial-gradient(46% 40% at 104% 12%, rgba(247,37,133,.22), transparent 60%),
+    radial-gradient(rgba(180,160,240,.10) 1.1px, transparent 1.1px),
+    var(--bg);
+  background-size:auto,auto,26px 26px,auto;
+  background-position:0 0,0 0,-13px -13px,0 0;
+  background-attachment:fixed,fixed,fixed,fixed;
+}
+body::before{display:none}
+
+/* glow neon all'hover delle card */
+.box.hover:hover,.pf:hover,.persona:hover,.blk:hover{
+  box-shadow:9px 9px 0 var(--ink), 0 0 36px rgba(247,37,133,.28)!important;
+}
+
+/* icone nei chip → bianche su fondo vivace */
+.card-ic{color:#fff}
+
+/* highlight dei titoli (vivaci, testo bianco) */
+.hl.y{background:var(--violet-light);color:#fff}
+.hl.c{background:var(--fuchsia);color:#fff}
+.hl.l{background:var(--violet);color:#fff}
+
+/* eyebrow: numero leggibile sul pill viola */
+.eyebrow .n{color:var(--magenta)}
+
+/* HERO */
+.sticker{background:var(--violet-light);color:#fff}
+.hero .lead b{background:var(--violet-light);color:#fff}
+.hero-frame{background:var(--violet)}
+.htag.c,.htag.y{color:#fff}
+
+/* TOPBAR */
+.btn-top:hover{background:var(--violet-light);color:#fff}
+
+/* PESTLE */
+.ppanel h4{background:var(--magenta);color:#fff}
+.trend.up{background:var(--violet-light);color:#fff}
+.trend.new{background:var(--magenta);color:#fff}
+.trend.flat{background:#fff;color:var(--ink)}
+
+/* SWOT → card chiare con accent-bar laterale (moderno + leggibile) */
+.q{background:#fff;color:var(--ink);border-left:10px solid var(--ink)}
+.q.s{border-left-color:var(--violet)}
+.q.w{border-left-color:var(--violet-light)}
+.q.o{border-left-color:var(--magenta)}
+.q.t{border-left-color:var(--fuchsia);color:var(--ink)}
+.q .lab .b{background:var(--ink);color:#fff;border-color:var(--ink)}
+.q.s .lab .b{background:var(--violet)}
+.q.w .lab .b{background:var(--violet-light)}
+.q.o .lab .b{background:var(--magenta)}
+.q.t .lab .b{background:var(--fuchsia);color:#fff}
+.q li::before{color:var(--violet)}
+
+/* PERSONAS → avatar pieni di brand, icone bianche */
+.persona .ava{color:#fff}
+
+/* PAIN → VALORE: card chiare con accenti */
+.pv-row .pain{background:#fff;border-left:6px solid var(--magenta)}
+.pv-row .val{background:#fff;border-left:6px solid var(--violet)}
+.pv-row .val .lbl{color:var(--violet)}
+.pv-row .arrow{background:var(--violet);color:#fff}
+
+/* SCENARIO: quote come blocco brand */
+.scenario-grid{align-items:stretch}
+.scenario-grid .big-quote{background:linear-gradient(135deg,var(--violet),var(--magenta));color:#fff;border:var(--bd);box-shadow:var(--sh)}
+.scenario-grid .art{padding:0;overflow:hidden;background:var(--violet);border:var(--bd);box-shadow:var(--sh)}
+.scenario-grid .art img{width:100%;height:100%;object-fit:cover;max-width:none;filter:none;display:block}
+.scenario-grid .big-quote .small{color:rgba(255,255,255,.92)}
+.scenario-grid .big-quote .punch em{background:rgba(0,0,0,.28);color:#fff}
+
+/* BMC: blocchi-chiave enfatici */
+.blk.b-value{background:var(--violet);color:#fff}
+.blk.b-value h4,.blk.b-value h4 i,.blk.b-value li::before{color:#fff}
+.blk.b-value li{color:rgba(255,255,255,.92)}
+.blk.b-rev{background:var(--magenta);color:#fff}
+.blk.b-rev h4,.blk.b-rev h4 i,.blk.b-rev li::before{color:#fff}
+.blk.b-rev li{color:rgba(255,255,255,.92)}
+.blk.b-clients{background:#fff}
+
+/* ═══════════════ BORDI VISIBILI + RILIEVO + ACCESSIBILITÀ ═══════════════ */
+:root{
+  --line:#ECE7FA;                       /* bordo chiaro: visibile sul fondo scuro */
+  --bd:2.5px solid var(--line);
+  --bd-thick:3.5px solid var(--line);
+  --sh:7px 7px 0 var(--violet);         /* ombra dura colorata = rilievo ben visibile */
+  --sh-sm:4px 4px 0 var(--violet);
+  --sh-lg:11px 11px 0 var(--violet);
+  /* 3 tinte BRAND ben distinte (niente magenta≈fucsia) */
+  --yellow:#8B5CF6;  /* viola chiaro */
+  --lime:#6C2BD9;    /* viola */
+  --cyan:#F72585;    /* magenta */
+}
+/* sui blocchi pieni di viola l'ombra diventa magenta (e viceversa) così il rilievo resta visibile */
+.position,.porter .core,.blk.b-value,.scenario-grid .big-quote,.hl.v{box-shadow:7px 7px 0 var(--magenta)}
+.curve-wrap{box-shadow:11px 11px 0 var(--magenta)}
+.blk.b-rev{box-shadow:4px 4px 0 var(--violet)}
+
+/* eyebrow: pill scuro con bordo chiaro = alto contrasto e numero magenta che spicca */
+.eyebrow{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--magenta)}
+.eyebrow .n{color:var(--magenta)}
+
+/* CONTRASTO (WCAG): testo scuro sul viola chiaro, bianco sul viola/magenta pieni */
+.htag.m{background:var(--magenta);color:#fff}
+.htag.c{background:var(--violet);color:#fff}
+.htag.y{background:var(--violet-light);color:var(--ink)}
+.hl.y,.hl.c{background:var(--violet-light);color:var(--ink)}
+.hl.l{background:var(--violet);color:#fff}
+.sticker{background:var(--violet-light);color:var(--ink)}
+.hero .lead b{background:var(--violet-light);color:var(--ink)}
+.trend.up{background:var(--violet-light);color:var(--ink)}
+.trend.new{background:var(--magenta);color:#fff}
+.ppanel h4{background:var(--magenta);color:#fff}
+.persona .ava{color:#fff}
+.persona:nth-child(1) .ava{color:var(--ink)}   /* icona scura su viola chiaro */
+
+/* ── SWOT definitivo: 4 colori distinti + testo accessibile + rilievo ── */
+.q{border-left:var(--bd)}
+.q.s{background:var(--violet);color:#fff;box-shadow:7px 7px 0 var(--magenta)}        /* viola · testo bianco */
+.q.w{background:var(--violet-light);color:var(--ink);box-shadow:7px 7px 0 var(--violet)}/* viola chiaro · testo scuro */
+.q.o{background:var(--magenta);color:#fff;box-shadow:7px 7px 0 var(--violet)}         /* magenta · testo bianco */
+.q.t{background:var(--ink);color:#fff;border-color:#3A3357;box-shadow:7px 7px 0 var(--magenta)} /* scuro · testo bianco */
+.q li{color:inherit}
+.q li::before{color:inherit;opacity:.85}
+.q .lab .b{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.65)}
+.q.w .lab .b{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* ── RITOCCHI FINALI ── */
+/* Minacce identico a Opportunità (magenta), come richiesto */
+.q.t{background:var(--magenta);color:#fff;border-color:var(--line);box-shadow:7px 7px 0 var(--violet)}
+.q.t .lab .b{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.65)}
+/* Positioning: enfasi in magenta (non più viola su viola) */
+.position .stmt b{background:var(--magenta);color:#fff}
+/* Business Model: 5 blocchi uniformi, testo discorsivo */
+.bmc{grid-template-columns:repeat(2,1fr)}
+.bmc .blk{background:#fff}
+.bmc .blk.span2{grid-column:1 / -1}
+.bmc .blk h4{font-size:.98rem;color:var(--ink);text-transform:none}
+.bmc .blk h4 i{color:var(--magenta)}
+.bmc .blk p{font-size:.93rem;font-weight:500;line-height:1.62;color:#241F33}
+@media(max-width:760px){.bmc{grid-template-columns:1fr}.bmc .blk.span2{grid-column:auto}}
+
+/* ══════════ PORTER · schema a croce + approfondimento verticale ══════════ */
+.pmap{display:grid;grid-template-columns:repeat(3,1fr);gap:1.7rem;align-items:center;max-width:880px;margin:0 auto 3.2rem}
+.pmap .pbox,.pmap .pcore{position:relative;border:var(--bd);box-shadow:var(--sh);border-radius:14px;padding:1.05rem 1rem;text-align:center;color:#fff}
+.pmap .pb-k{display:block;font-family:'Archivo';font-weight:600;font-size:.78rem;opacity:.92;margin-bottom:.15rem}
+.pmap strong{font-family:'Unbounded';font-weight:700;font-size:1.02rem;line-height:1.12;text-transform:uppercase}
+.pb-forn{grid-column:2;grid-row:1;background:var(--violet)}
+.pb-entr{grid-column:1;grid-row:2;background:var(--magenta)}
+.pcore{grid-column:2;grid-row:2;background:linear-gradient(135deg,var(--violet),var(--magenta));border:var(--bd-thick);box-shadow:8px 8px 0 var(--ink),0 0 34px rgba(247,37,133,.45)}
+.pb-sost{grid-column:3;grid-row:2;background:var(--violet-light);color:var(--ink)}
+.pb-cli{grid-column:2;grid-row:3;background:#B5179E}
+.pcore img{width:44px;height:44px;border-radius:50%;border:2px solid #fff;object-fit:cover;margin-bottom:.35rem;background:#fff}
+.pcore span{display:block;font-family:'Space Mono';font-size:.68rem;opacity:.9;margin-top:.15rem}
+.pbox::after{position:absolute;font-size:1.5rem;line-height:1;color:var(--violet-light)}
+.pb-forn::after{content:'▼';left:50%;bottom:-1.6rem;transform:translateX(-50%)}
+.pb-entr::after{content:'▶';right:-1.6rem;top:50%;transform:translateY(-50%)}
+.pb-sost::after{content:'◀';left:-1.6rem;top:50%;transform:translateY(-50%)}
+.pb-cli::after{content:'▲';left:50%;top:-1.6rem;transform:translateX(-50%)}
+@media(max-width:700px){
+  .pmap{grid-template-columns:1fr;gap:2rem;max-width:340px}
+  .pb-forn,.pb-entr,.pcore,.pb-sost,.pb-cli{grid-column:1}
+  .pb-forn{grid-row:1}.pb-entr{grid-row:2}.pcore{grid-row:3}.pb-sost{grid-row:4}.pb-cli{grid-row:5}
+  .pbox::after{content:'▼'!important;left:50%!important;right:auto!important;top:auto!important;bottom:-1.7rem!important;transform:translateX(-50%)!important}
+}
+.pforce-list{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;max-width:1000px;margin:0 auto}
+.pforce.f-rival{grid-column:1 / -1}
+@media(max-width:760px){.pforce-list{grid-template-columns:1fr}.pforce.f-rival{grid-column:auto}}
+.pforce{background:#fff;border:var(--bd);box-shadow:var(--sh);border-left-width:10px;padding:1.5rem 1.7rem}
+.pforce header{display:flex;align-items:center;gap:.85rem;margin-bottom:.75rem;flex-wrap:wrap}
+.pforce .pf-ic{width:46px;height:46px;border:var(--bd);box-shadow:var(--sh-sm);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;flex-shrink:0}
+.pforce h3{font-family:'Unbounded';font-weight:700;font-size:1.02rem;text-transform:uppercase;color:var(--ink);flex:1;min-width:200px;letter-spacing:-.01em}
+.pforce p{font-weight:500;font-size:.95rem;line-height:1.64;color:#241F33}
+.f-rival{border-left-color:var(--ink)} .f-rival .pf-ic{background:var(--ink)}
+.f-entr{border-left-color:var(--magenta)} .f-entr .pf-ic{background:var(--magenta)}
+.f-forn{border-left-color:var(--violet)} .f-forn .pf-ic{background:var(--violet)}
+.f-cli{border-left-color:#B5179E} .f-cli .pf-ic{background:#B5179E}
+.f-sost{border-left-color:var(--violet-light)} .f-sost .pf-ic{background:var(--violet-light);color:var(--ink)}
+</style>
+</head>
+<body id="top">
+
+<div id="prog"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="#top" class="brand"><img src="assets/images/faviconmostry.png" alt="Mostry"> Mostry <span class="tag">Brand Analysis</span></a>
+  <a href="#top" class="btn-top"><i class="fa-solid fa-arrow-up"></i> Inizio</a>
+</div>
+
+<!-- SIDE NAV -->
+<nav class="dots" id="dots"></nav>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="sticker reveal">★ Art Direction II · A.A. 2025/2026</span>
+      <h1 class="reveal">Mostry<br><span class="line2">Brand Analysis</span></h1>
+      <p class="lead reveal">Il presente elaborato propone un'analisi strategica integrata del brand <b>Mostry</b>, piattaforma SaaS che consente di realizzare un assistente virtuale conversazionale capace di rispondere con il tono di voce dell'impresa. Lo studio articola, secondo la metodologia dell'Art Direction, l'esame dello scenario competitivo, dei fattori di macro-ambiente, del posizionamento e del modello di business.</p>
+      <div class="hero-tags reveal">
+        <span class="htag m"><i class="fa-solid fa-robot"></i>SaaS · AI</span>
+        <span class="htag c"><i class="fa-solid fa-flag"></i>Made in Italy</span>
+        <span class="htag y"><i class="fa-solid fa-bolt"></i>Gemini AI</span>
+      </div>
+    </div>
+    <div class="hero-art reveal">
+      <div class="hero-frame"><img src="assets/images/mostriciattolohero.png" alt="Mascotte Mostry"></div>
+      <span class="hero-badge">Ciao! 👋</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="track" id="mtrack">
+    <span>Parla come te <i class="fa-solid fa-star"></i></span><span>Attivo 24/7 <i class="fa-solid fa-star"></i></span><span>Zero codice <i class="fa-solid fa-star"></i></span><span>100% Italiano <i class="fa-solid fa-star"></i></span><span>Pronto in 10 minuti <i class="fa-solid fa-star"></i></span><span>Powered by Gemini <i class="fa-solid fa-star"></i></span>
+  </div>
+</div>
+
+<!-- SCENARIO -->
+<section id="scenario">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">01</span> / Scenario</span>
+    <h2 class="title">Il mercato vuole <span class="hl">risposte subito</span></h2>
+    <p class="sub">Mostry si colloca nel solco della democratizzazione dell'intelligenza artificiale conversazionale: l'obiettivo è rendere accessibile, anche alle realtà prive di competenze tecniche interne, uno strumento in grado di assistere la clientela in modo continuativo, ventiquattro ore su ventiquattro, preservando l'identità comunicativa dell'impresa.</p>
+  </div>
+  <div class="scenario-grid reveal">
+    <div class="big-quote">
+      <p class="small">Il contesto attuale è segnato da una duplice tensione: da un lato l'incremento strutturale dei costi del servizio clienti, dall'altro un'utenza che esige risposte immediate, su qualsiasi canale e in qualsiasi momento. Le piccole e medie imprese italiane, tuttavia, dispongono solo di rado delle risorse economiche e delle competenze specialistiche necessarie per implementare soluzioni di intelligenza artificiale realmente su misura.</p>
+      <p class="punch">Mostry non è semplicemente un chatbot: si propone come la <em>voce digitale</em> dell'impresa, operativa senza soluzione di continuità.</p>
+    </div>
+    <div class="art"><img src="assets/images/mostriciattoloporta.png" alt="Mostry"></div>
+  </div>
+</section>
+
+<!-- PESTLE -->
+<section id="pestle">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">02</span> / Analisi di mercato</span>
+    <h2 class="title">Analisi <span class="hl v">P.E.S.T.L.E.</span></h2>
+    <p class="sub">L'analisi P.E.S.T.L.E. ricostruisce il quadro dei fattori di macro-ambiente — politici, economici, socio-culturali, tecnologici, legali ed ecologici — che condizionano lo sviluppo del mercato dell'intelligenza artificiale conversazionale e del software gestionale destinato alle piccole e medie imprese, evidenziandone tendenze e implicazioni strategiche.</p>
+  </div>
+  <div class="pestle reveal">
+    <div class="ptabs">
+      <button class="ptab on" data-p="po"><i class="fa-solid fa-landmark"></i> Politico</button>
+      <button class="ptab" data-p="ec"><i class="fa-solid fa-chart-line"></i> Economico</button>
+      <button class="ptab" data-p="so"><i class="fa-solid fa-users"></i> Socio-cult.</button>
+      <button class="ptab" data-p="te"><i class="fa-solid fa-microchip"></i> Tecnologico</button>
+      <button class="ptab" data-p="le"><i class="fa-solid fa-scale-balanced"></i> Legale</button>
+      <button class="ptab" data-p="en"><i class="fa-solid fa-leaf"></i> Ecologico</button>
+    </div>
+    <div class="pcontent">
+      <div class="ppanel on" data-p="po">
+        <h4>Politico</h4>
+        <ul>
+          <li><span class="trend up">↑ Cresce</span><span><b>Incentivi alla digitalizzazione.</b> Fondi PNRR e Transizione 4.0/5.0 spingono le PMI ad adottare strumenti digitali e AI.</span></li>
+          <li><span class="trend new">● Nuovo</span><span><b>AI Act europeo.</b> La prima regolamentazione organica sull'AI definisce obblighi di trasparenza per i sistemi conversazionali.</span></li>
+          <li><span class="trend up">↑ Cresce</span><span><b>Spinta alla trasparenza digitale.</b> Il contesto normativo favorisce la tracciabilità e l'adozione di software gestionali.</span></li>
+        </ul>
+      </div>
+      <div class="ppanel" data-p="ec">
+        <h4>Economico</h4>
+        <ul>
+          <li><span class="trend up">↑ Cresce</span><span><b>Costo del lavoro di supporto in aumento.</b> Assumere personale di front-office è oneroso: l'automazione diventa vantaggio competitivo.</span></li>
+          <li><span class="trend up">↑ Cresce</span><span><b>Spesa SaaS delle PMI in espansione.</b> Le piccole imprese investono sempre più in abbonamenti software a canone.</span></li>
+          <li><span class="trend new">● Nuovo</span><span><b>ROI da automazione.</b> Riduzione fino al ~40% del carico di supporto: l'AI conversazionale si ripaga in fretta.</span></li>
+        </ul>
+      </div>
+      <div class="ppanel" data-p="so">
+        <h4>Socio-culturale</h4>
+        <ul>
+          <li><span class="trend up">↑ Cresce</span><span><b>Cultura dell'istantaneità.</b> Gli utenti pretendono risposte in tempo reale, 24/7, e la chat è il canale preferito.</span></li>
+          <li><span class="trend up">↑ Cresce</span><span><b>Fiducia crescente verso l'AI.</b> Dopo ChatGPT, parlare con un assistente virtuale è ormai un'abitudine accettata.</span></li>
+          <li><span class="trend flat">= Stabile</span><span><b>Attenzione al tono e all'autenticità.</b> Un'AI generica non basta: serve una voce coerente col brand.</span></li>
+        </ul>
+      </div>
+      <div class="ppanel" data-p="te">
+        <h4>Tecnologico</h4>
+        <ul>
+          <li><span class="trend new">● Nuovo</span><span><b>Boom dei Large Language Model.</b> Modelli come Google Gemini rendono possibili assistenti di qualità prima impensabile.</span></li>
+          <li><span class="trend up">↑ Cresce</span><span><b>API accessibili e costi di inferenza in calo.</b> Integrare l'AI è oggi alla portata anche di realtà piccole.</span></li>
+          <li><span class="trend up">↑ Cresce</span><span><b>No-code &amp; multipiattaforma.</b> L'AI si integra su sito e WhatsApp con poche righe, senza sviluppatori.</span></li>
+        </ul>
+      </div>
+      <div class="ppanel" data-p="le">
+        <h4>Legale</h4>
+        <ul>
+          <li><span class="trend flat">= Stabile</span><span><b>GDPR.</b> Gestione dei dati nelle conversazioni: cifratura, consenso e data residency restano requisiti stringenti.</span></li>
+          <li><span class="trend new">● Nuovo</span><span><b>Obbligo di trasparenza AI.</b> L'AI Act impone di dichiarare all'utente che interagisce con un sistema automatico.</span></li>
+          <li><span class="trend flat">= Stabile</span><span><b>Responsabilità sui contenuti.</b> Necessità di limitare allucinazioni e risposte fuori scope per evitare rischi reputazionali.</span></li>
+        </ul>
+      </div>
+      <div class="ppanel" data-p="en">
+        <h4>Ecologico</h4>
+        <ul>
+          <li><span class="trend up">↑ Cresce</span><span><b>Sostenibilità del digitale.</b> Sostituire processi cartacei e telefonate con un assistente digitale riduce l'impatto operativo.</span></li>
+          <li><span class="trend new">● Nuovo</span><span><b>Costo energetico dell'inferenza AI.</b> Cresce l'attenzione al consumo dei data center: ottimizzare i modelli è un tema chiave.</span></li>
+          <li><span class="trend flat">= Stabile</span><span><b>Efficienza come valore di brand.</b> Le aziende green premiano i fornitori attenti all'impronta ambientale.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTER -->
+<section id="porter">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">03</span> / Competizione</span>
+    <h2 class="title">Le 5 forze di <span class="hl">Porter</span></h2>
+    <p class="sub">Il modello delle cinque forze di Porter consente di valutare l'attrattività e l'intensità competitiva del settore dell'automazione del servizio clienti basata su intelligenza artificiale, misurando la pressione esercitata da concorrenti, nuovi entranti, fornitori, clienti e prodotti sostitutivi.</p>
+  </div>
+  <!-- schema a croce delle 5 forze -->
+  <div class="pmap reveal">
+    <div class="pbox pb-forn"><span class="pb-k">Potere contrattuale dei</span><strong>Fornitori</strong></div>
+    <div class="pbox pb-entr"><span class="pb-k">Minaccia di</span><strong>Nuovi entranti</strong></div>
+    <div class="pcore"><img src="assets/images/faviconmostry.png" alt="Mostry"><strong>Concorrenti di settore</strong><span>(rivalità)</span></div>
+    <div class="pbox pb-sost"><span class="pb-k">Minaccia di</span><strong>Prodotti sostitutivi</strong></div>
+    <div class="pbox pb-cli"><span class="pb-k">Potere contrattuale dei</span><strong>Clienti</strong></div>
+  </div>
+
+  <!-- approfondimento discorsivo, una forza per blocco -->
+  <div class="pforce-list reveal">
+    <article class="pforce f-rival">
+      <header><span class="pf-ic"><i class="fa-solid fa-hand-fist"></i></span><h3>Concorrenti di settore · Rivalità</h3><span class="intensity alta">Intensità alta</span></header>
+      <p>La rivalità tra i concorrenti già attivi nel mercato si presenta particolarmente intensa. Il settore è popolato da operatori internazionali consolidati — tra cui Intercom, Tidio, ManyChat e Voiceflow — che competono in modo aggressivo su prezzo, ampiezza funzionale e ritmo di innovazione, in un contesto tecnologico in rapidissima evoluzione. La proliferazione di soluzioni equivalenti e la conseguente difficoltà di fidelizzare la clientela alimentano un'elevata pressione competitiva, che comprime i margini e impone un costante sforzo di differenziazione. In tale scenario Mostry non insegue la competizione frontale sui grandi mercati generalisti, ma adotta una strategia di focalizzazione: presidiare la nicchia delle piccole e medie imprese italiane attraverso una proposta in lingua nativa, un'attivazione immediata e priva di codice e una struttura tariffaria trasparente, costruendo così un posizionamento difendibile.</p>
+    </article>
+    <article class="pforce f-entr">
+      <header><span class="pf-ic"><i class="fa-solid fa-door-open"></i></span><h3>Minaccia di nuovi entranti</h3><span class="intensity alta">Intensità alta</span></header>
+      <p>La minaccia rappresentata dai nuovi entranti è elevata. Le barriere all'ingresso nel mercato dell'intelligenza artificiale conversazionale si sono drasticamente abbassate: la disponibilità di interfacce di programmazione (API) mature e a costo contenuto consente anche a piccoli team di sviluppare in tempi rapidi soluzioni costruite al di sopra di un modello linguistico preesistente. Ne deriva un flusso continuo di nuove startup e prodotti concorrenti, ulteriormente incentivato dalle politiche pubbliche a sostegno della digitalizzazione. In una simile cornice, il vantaggio competitivo realmente difendibile non risiede nella tecnologia di base — agevolmente replicabile — bensì in fattori distintivi quali la specializzazione sulla lingua e sul mercato italiano, la qualità dell'esperienza no-code, la reputazione del marchio e la profondità delle integrazioni verticali, elementi che innalzano i costi di imitazione e di abbandono.</p>
+    </article>
+    <article class="pforce f-forn">
+      <header><span class="pf-ic"><i class="fa-solid fa-truck"></i></span><h3>Potere contrattuale dei fornitori</h3><span class="intensity medalta">Intensità medio-alta</span></header>
+      <p>I fornitori strategici del settore coincidono con i grandi provider di modelli linguistici e di infrastruttura cloud, primo fra tutti Google con il modello Gemini. La concentrazione dell'offerta nelle mani di pochi operatori di scala globale conferisce a questi soggetti un potere contrattuale considerevole: eventuali variazioni nelle politiche di prezzo, nei limiti d'uso o nelle condizioni di servizio si ripercuotono in modo diretto sui costi e sulla continuità operativa di Mostry. Tale dipendenza tecnologica costituisce un fattore di rischio strutturale, mitigabile solo parzialmente — ad esempio progettando un'architettura modulare che consenta, in prospettiva, di affiancare o sostituire modelli alternativi. Complessivamente il potere dei fornitori si colloca su un livello medio-alto.</p>
+    </article>
+    <article class="pforce f-cli">
+      <header><span class="pf-ic"><i class="fa-solid fa-user-group"></i></span><h3>Potere contrattuale dei clienti</h3><span class="intensity media">Intensità media</span></header>
+      <p>Il potere contrattuale dei clienti si attesta su un livello medio. I destinatari dell'offerta — piccole e medie imprese e liberi professionisti — risultano tipicamente sensibili al prezzo e dispongono di numerose alternative, circostanza che ne accresce la capacità negoziale. Tale potere è tuttavia temperato da due fattori di segno opposto: da un lato la limitata competenza tecnica interna, che rende prezioso un servizio realmente semplice e "chiavi in mano"; dall'altro i costi di passaggio, destinati a crescere progressivamente man mano che l'assistente viene addestrato e personalizzato sul tono di voce e sui contenuti dell'impresa. La trasparenza tariffaria e la qualità della relazione contribuiscono ulteriormente a contenere la propensione all'abbandono.</p>
+    </article>
+    <article class="pforce f-sost">
+      <header><span class="pf-ic"><i class="fa-solid fa-repeat"></i></span><h3>Minaccia di prodotti sostitutivi</h3><span class="intensity media">Intensità media</span></header>
+      <p>La pressione esercitata dai prodotti sostitutivi è di intensità media. Le imprese possono soddisfare il medesimo bisogno — gestire le richieste della clientela — ricorrendo a soluzioni alternative quali i chatbot a regole predefinite, le sezioni di domande frequenti statiche, i moduli di contatto, i servizi di call center esternalizzati oppure l'impiego diretto di strumenti generalisti come ChatGPT o Gemini, questi ultimi però privi di integrazione e di conoscenza del brand. Tali sostituti si rivelano spesso più economici o più immediati, ma offrono un'esperienza frammentaria e non continuativa. Il rischio di sostituzione si riduce nella misura in cui Mostry dimostra un valore superiore in termini di personalizzazione, continuità del servizio e semplicità di adozione.</p>
+    </article>
+  </div>
+</section>
+
+<!-- COMPETITOR -->
+<section id="competitor">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">04</span> / Competitor</span>
+    <h2 class="title">Chi c'è <span class="hl y">sul mercato</span></h2>
+    <p class="sub">La mappatura competitiva distingue i concorrenti diretti, gli operatori indiretti e gli elementi differenzianti di Mostry. Il brand fonda il proprio vantaggio competitivo sulla lingua italiana nativa, sull'attivazione no-code in meno di dieci minuti, sulla piena personalizzazione del tono di voce e su una struttura tariffaria fissa e trasparente.</p>
+  </div>
+  <div class="reveal">
+    <div class="ctabs">
+      <button class="ctab on" data-c="dir">Diretti</button>
+      <button class="ctab" data-c="ind">Indiretti</button>
+      <button class="ctab" data-c="adv">Vantaggio Mostry</button>
+    </div>
+    <div class="cset on" data-c="dir">
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--cyan)"><i class="fa-solid fa-comments"></i></div><h3>Intercom Fin</h3><p>Assistente AI premium per il customer service. Potente ma costoso, orientato a grandi aziende e tutto in inglese.</p></div>
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--yellow)"><i class="fa-solid fa-robot"></i></div><h3>Tidio / Lyro</h3><p>Chatbot AI per e-commerce. Buona automazione ma personalizzazione del tono limitata e localizzazione IT parziale.</p></div>
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--lime)"><i class="fa-brands fa-facebook-messenger"></i></div><h3>ManyChat</h3><p>Forte sui flussi Messenger/WhatsApp, ma più automazione marketing che vera AI conversazionale di supporto.</p></div>
+    </div>
+    <div class="cset" data-c="ind">
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--violet);color:#fff"><i class="fa-solid fa-brain"></i></div><h3>ChatGPT / Gemini</h3><p>L'utente usa l'AI generica senza integrazione: nessuna conoscenza del brand, nessun canale dedicato, nessuna continuità.</p></div>
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--cyan)"><i class="fa-solid fa-circle-question"></i></div><h3>FAQ &amp; form statici</h3><p>Economici ma passivi: non conversano, non qualificano i lead e non rispondono fuori dagli schemi previsti.</p></div>
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--yellow)"><i class="fa-solid fa-headset"></i></div><h3>Call center / BPO</h3><p>Supporto umano esternalizzato: efficace ma costoso, con orari limitati e tempi di attivazione lunghi.</p></div>
+    </div>
+    <div class="cset" data-c="adv">
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--magenta);color:#fff"><i class="fa-solid fa-flag"></i></div><h3>Italiano nativo</h3><p>Pensato per le PMI italiane: lingua, tono e supporto locale, dove i grandi player arrivano solo in inglese.</p></div>
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--magenta);color:#fff"><i class="fa-solid fa-bolt"></i></div><h3>Attivo in &lt;10 min</h3><p>Configurazione guidata no-code: da zero a bot funzionante senza scrivere codice né assumere tecnici.</p></div>
+      <div class="card box hover pad"><div class="card-ic" style="background:var(--magenta);color:#fff"><i class="fa-solid fa-tag"></i></div><h3>Prezzo trasparente</h3><p>Canone flat senza commissioni a sorpresa, contro i modelli a consumo poco prevedibili dei competitor.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SWOT -->
+<section id="swot">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">05</span> / Analisi interna ed esterna</span>
+    <h2 class="title">Analisi <span class="hl v">SWOT</span></h2>
+    <p class="sub">L'analisi SWOT sintetizza la diagnosi strategica del brand, ponendo in relazione i punti di forza e di debolezza riconducibili alla dimensione interna dell'impresa con le opportunità e le minacce che emergono dal contesto esterno, così da orientare le scelte di sviluppo futuro.</p>
+  </div>
+  <div class="swot reveal">
+    <div class="q s">
+      <div class="lab"><span class="b"><i class="fa-solid fa-bolt"></i></span> Forze</div>
+      <ul>
+        <li>Setup no-code rapidissimo (&lt;10 minuti)</li>
+        <li>Italiano nativo e supporto locale dedicato</li>
+        <li>Personalizzazione totale del tono di voce</li>
+        <li>Prezzo flat trasparente e multipiattaforma</li>
+        <li>Motore Google Gemini di ultima generazione</li>
+      </ul>
+    </div>
+    <div class="q w">
+      <div class="lab"><span class="b"><i class="fa-solid fa-triangle-exclamation"></i></span> Debolezze</div>
+      <ul>
+        <li>Dipendenza da un provider LLM terzo</li>
+        <li>Brand giovane, awareness ancora limitata</li>
+        <li>Risorse e team contenuti</li>
+        <li>Costi di inferenza variabili sui margini</li>
+        <li>Rischio allucinazioni da presidiare</li>
+      </ul>
+    </div>
+    <div class="q o">
+      <div class="lab"><span class="b"><i class="fa-solid fa-lightbulb"></i></span> Opportunità</div>
+      <ul>
+        <li>Digitalizzazione delle PMI e fondi PNRR</li>
+        <li>Mercato dell'AI in forte espansione</li>
+        <li>Espansione su nuovi canali (WhatsApp)</li>
+        <li>Soluzioni verticali (ristorazione, legale, sanità)</li>
+        <li>Rete di agenzie e partner rivenditori</li>
+      </ul>
+    </div>
+    <div class="q t">
+      <div class="lab"><span class="b"><i class="fa-solid fa-bolt-lightning"></i></span> Minacce</div>
+      <ul>
+        <li>Guerra dei prezzi tra concorrenti</li>
+        <li>Big tech che integrano l'AI gratuitamente</li>
+        <li>Cambi di pricing/policy dei provider AI</li>
+        <li>Vincoli normativi (AI Act, GDPR)</li>
+        <li>Saturazione e rapida obsolescenza tecnologica</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAS -->
+<section id="personas">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">06</span> / Profilo cliente</span>
+    <h2 class="title">A chi parla <span class="hl">Mostry</span></h2>
+    <p class="sub">La definizione dei profili-tipo di clientela consente di identificare i segmenti prioritari verso cui orientare la proposta di valore. Si delineano di seguito tre buyer personas rappresentative del tessuto delle piccole e medie imprese italiane, accomunate dalla difficoltà di gestire in modo efficiente le attività di front-office.</p>
+  </div>
+  <div class="grid g3 reveal">
+    <div class="persona">
+      <div class="ava"><i class="fa-solid fa-scale-balanced"></i></div>
+      <h3>Il Professionista Solo</h3>
+      <div class="role">Studio legale · Consulente</div>
+      <p>Gestisce quotidianamente un elevato volume di richieste, spesso non pertinenti al proprio ambito di attività. Necessita di uno strumento capace di filtrare e qualificare i contatti in ingresso, così da concentrare il proprio tempo sulle pratiche a maggior valore senza dover ricorrere all'assunzione di personale di segreteria.</p>
+      <div class="tags"><span>Qualifica lead</span><span>Prima consulenza</span><span>Risparmio tempo</span></div>
+    </div>
+    <div class="persona">
+      <div class="ava"><i class="fa-solid fa-cart-shopping"></i></div>
+      <h3>La PMI E-commerce</h3>
+      <div class="role">Negozio online</div>
+      <p>Subisce una perdita di fatturato imputabile alle domande che restano prive di risposta al di fuori dell'orario lavorativo e all'abbandono dei carrelli. Ricerca un presidio continuativo, attivo ventiquattro ore su ventiquattro, in grado di assistere la clientela nella fase di pre-vendita e di alleggerire il carico del servizio assistenza.</p>
+      <div class="tags"><span>Supporto 24/7</span><span>Pre-vendita</span><span>-40% ticket</span></div>
+    </div>
+    <div class="persona">
+      <div class="ava"><i class="fa-solid fa-utensils"></i></div>
+      <h3>Il Ristoratore</h3>
+      <div class="role">Locale · Pasticceria</div>
+      <p>È chiamato a rispondere ripetutamente alle medesime richieste relative a menù, allergeni e orari di apertura. Aspira a un menù digitale intelligente che informi autonomamente la clientela, gestisca le prenotazioni e garantisca un'adeguata trasparenza in materia di sicurezza alimentare.</p>
+      <div class="tags"><span>Menu digitale</span><span>Allergeni</span><span>Prenotazioni</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN → VALUE -->
+<section id="value">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">07</span> / Pain &amp; Proposta di valore</span>
+    <h2 class="title">Da ogni problema, <span class="hl l">una soluzione</span></h2>
+    <p class="sub">La proposta di valore viene ricostruita ponendo in corrispondenza i principali fattori di criticità (pain) riscontrati dai segmenti di clientela con i corrispondenti benefici offerti dalla soluzione. Ne emerge come Mostry converta sistematicamente ciascun punto di dolore operativo in un vantaggio misurabile e tangibile per l'impresa.</p>
+  </div>
+  <div class="pv reveal">
+    <div class="pv-row">
+      <div class="pain"><div class="lbl">Pain</div><div class="txt">Supporto clienti costoso e limitato agli orari di ufficio</div></div>
+      <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="val"><div class="lbl">Valore</div><div class="txt">Assistente AI attivo 24/7 a canone fisso, fino a -40% di carico</div></div>
+    </div>
+    <div class="pv-row">
+      <div class="pain"><div class="lbl">Pain</div><div class="txt">Richieste ripetitive che rubano tempo prezioso</div></div>
+      <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="val"><div class="lbl">Valore</div><div class="txt">L'AI gestisce le FAQ e passa all'umano solo i casi complessi</div></div>
+    </div>
+    <div class="pv-row">
+      <div class="pain"><div class="lbl">Pain</div><div class="txt">Nessuna competenza tecnica per implementare l'AI</div></div>
+      <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="val"><div class="lbl">Valore</div><div class="txt">Configurazione guidata no-code: attiva in meno di 10 minuti</div></div>
+    </div>
+    <div class="pv-row">
+      <div class="pain"><div class="lbl">Pain</div><div class="txt">Soluzioni esistenti in inglese, complesse e costose</div></div>
+      <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="val"><div class="lbl">Valore</div><div class="txt">100% italiano, prezzo flat trasparente, supporto locale</div></div>
+    </div>
+    <div class="pv-row">
+      <div class="pain"><div class="lbl">Pain</div><div class="txt">Immagine poco professionale verso i clienti</div></div>
+      <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="val"><div class="lbl">Valore</div><div class="txt">Un bot brandizzato che parla con il tuo tono di voce</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE CURVE -->
+<section id="curve">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">08</span> / Strategy Canvas</span>
+    <h2 class="title">La curva del <span class="hl">valore</span></h2>
+    <p class="sub">La curva del valore, elaborata secondo l'approccio Strategy Canvas della teoria dell'Oceano Blu, raffronta Mostry con le soluzioni alternative lungo i fattori competitivi ritenuti rilevanti dalle piccole e medie imprese italiane, restituendo in forma grafica la differenziazione del profilo di offerta.</p>
+  </div>
+  <div class="curve-wrap reveal">
+    <svg class="svg-chart" id="chart" viewBox="0 0 900 380" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Curva del valore">
+      <g id="grid"></g><g id="lines"></g><g id="labels"></g>
+    </svg>
+    <div class="legend">
+      <span><i style="background:#F72585"></i> Mostry</span>
+      <span><i style="background:#6C2BD9"></i> Intercom</span>
+      <span><i style="background:#0F0E14"></i> ChatGPT diretto</span>
+      <span><i style="background:#8A8398"></i> Chatbot tradiz.</span>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section id="positioning">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">09</span> / Brand Positioning</span>
+    <h2 class="title">Positioning <span class="hl y">Statement</span></h2>
+  </div>
+  <div class="position reveal">
+    <p class="stmt"><b>Mostry</b> è la piattaforma no-code che permette a <b>professionisti e PMI italiane</b> di creare un <b>assistente virtuale AI personalizzato</b>, per <b>rispondere ai clienti 24/7</b> con il proprio tono di voce, <b>senza costi elevati né competenze tecniche</b>.</p>
+    <div class="pos-grid">
+      <div class="pg"><div class="k">Brand</div><div class="v">Mostry</div></div>
+      <div class="pg"><div class="k">Prodotto</div><div class="v">Piattaforma no-code per assistenti AI</div></div>
+      <div class="pg"><div class="k">Target</div><div class="v">PMI e professionisti italiani</div></div>
+      <div class="pg"><div class="k">Job</div><div class="v">Rispondere ai clienti 24/7 col proprio tono</div></div>
+      <div class="pg"><div class="k">Pain</div><div class="v">Senza costi alti né competenze tecniche</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BMC -->
+<section id="bmc">
+  <div class="head reveal">
+    <span class="eyebrow"><span class="n">10</span> / Modello di business</span>
+    <h2 class="title">Business Model <span class="hl v">Canvas</span></h2>
+    <p class="sub">L'analisi si concentra sui cinque elementi del modello di business rivolti al cliente — proposta di valore, segmenti di clientela, relazioni, canali e flussi di ricavo — che definiscono il modo in cui Mostry genera, distribuisce e cattura valore sul mercato.</p>
+  </div>
+  <div class="bmc reveal">
+    <div class="blk span2"><h4><i class="fa-solid fa-gem"></i> Value Proposition · Proposta di valore</h4>
+      <p>Mostry mette a disposizione delle imprese un assistente virtuale conversazionale, costruito sul modello Google Gemini, capace di dialogare con la clientela ventiquattro ore su ventiquattro riproducendone fedelmente il tono di voce. La piattaforma è interamente no-code e può essere configurata in meno di dieci minuti, è disponibile in lingua italiana e si integra agevolmente sia sul sito web sia su WhatsApp. Il valore percepito risiede nella sensibile riduzione del carico di lavoro del servizio clienti — stimabile fino a circa il quaranta per cento — nella continuità del presidio e nella coerenza dell'identità comunicativa, il tutto senza richiedere competenze tecniche interne né l'assunzione di personale dedicato.</p></div>
+    <div class="blk"><h4><i class="fa-solid fa-users"></i> Customer Segments · Segmenti di clientela</h4>
+      <p>L'offerta si rivolge alle piccole e medie imprese italiane e ai liberi professionisti che, pur gestendo un volume rilevante di interazioni con il pubblico, dispongono di risorse e competenze tecniche limitate. Si individuano tre segmenti prioritari: gli studi professionali — legali e consulenziali — interessati a filtrare e qualificare i contatti in ingresso; gli e-commerce, che necessitano di un'assistenza continuativa nelle fasi di pre e post-vendita; le attività di ristorazione, alle prese con richieste ricorrenti relative a menù, allergeni e prenotazioni.</p></div>
+    <div class="blk"><h4><i class="fa-solid fa-heart"></i> Customer Relationships · Relazioni</h4>
+      <p>La relazione con il cliente si fonda su un percorso di onboarding guidato, che accompagna l'impresa nella configurazione iniziale dell'assistente, su un supporto dedicato erogato in lingua italiana e su una dashboard self-service che garantisce piena autonomia gestionale. L'obiettivo è massimizzare la fidelizzazione attraverso un'esperienza assistita ma non vincolante, nella quale il cliente percepisce un accompagnamento costante e una presa in carico effettiva delle proprie esigenze, riducendo così il tasso di abbandono.</p></div>
+    <div class="blk"><h4><i class="fa-solid fa-bullhorn"></i> Channels · Canali</h4>
+      <p>L'acquisizione e l'erogazione del servizio avvengono attraverso canali esclusivamente digitali: il sito web istituzionale, dotato di una demo interattiva del bot, l'integrazione diretta su WhatsApp e sui siti dei clienti, il passaparola e una rete di agenzie web e partner rivenditori che operano come canale indiretto. Tale architettura distributiva, coerente con un modello SaaS self-service supportato, consente di contenere i costi di acquisizione e di raggiungere in modo scalabile il target di riferimento.</p></div>
+    <div class="blk"><h4><i class="fa-solid fa-sack-dollar"></i> Revenue Streams · Flussi di ricavo</h4>
+      <p>Il modello genera ricavi ricorrenti tramite un abbonamento articolato su tre livelli — Base (49 €/mese), Standard (148 €/mese) e Custom su misura — senza l'applicazione di commissioni sulle conversazioni gestite. A questi si affiancano i ricavi derivanti dagli upgrade di piano e dai servizi accessori di personalizzazione e design dedicato. La prevedibilità del ricavo ricorrente mensile (MRR) rappresenta il fondamento della sostenibilità economica e della scalabilità dell'impresa nel medio-lungo periodo.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="big">Most<span>ry</span></div>
+  <p>Esame di Art Direction II · A.A. 2025/2026 · Brand Analysis</p>
+  <p>Made with ♥ in Italy</p>
+</footer>
+
+<script>
+const RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* progress */
+const prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;prog.style.width=(max>0?h.scrollTop/max*100:0)+'%';}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* marquee duplica per loop continuo */
+(function(){const t=document.getElementById('mtrack');t.innerHTML+=t.innerHTML;})();
+
+/* side nav */
+const secs=[...document.querySelectorAll('section[id]')];
+const labels={hero:'Intro',scenario:'Scenario',pestle:'PESTLE',porter:'Porter',competitor:'Competitor',swot:'SWOT',personas:'Personas',value:'Valore',curve:'Curva',positioning:'Position',bmc:'Business'};
+const dots=document.getElementById('dots');
+secs.forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=String(i).padStart(2,'0')+'<span>'+(labels[s.id]||s.id)+'</span>';dots.appendChild(a);});
+const dotEls=[...dots.children];
+const dio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=secs.indexOf(e.target);dotEls.forEach((d,j)=>d.classList.toggle('on',j===i));}});},{rootMargin:'-45% 0px -50% 0px'});
+secs.forEach(s=>dio.observe(s));
+
+/* reveal */
+const rio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i,4)*0.06)+'s';rio.observe(el);});
+
+/* PESTLE tabs */
+document.querySelectorAll('.ptab').forEach(t=>t.addEventListener('click',()=>{
+  const p=t.dataset.p;
+  document.querySelectorAll('.ptab').forEach(x=>x.classList.toggle('on',x===t));
+  document.querySelectorAll('.ppanel').forEach(x=>x.classList.toggle('on',x.dataset.p===p));
+}));
+
+/* Competitor tabs */
+document.querySelectorAll('.ctab').forEach(t=>t.addEventListener('click',()=>{
+  const c=t.dataset.c;
+  document.querySelectorAll('.ctab').forEach(x=>x.classList.toggle('on',x===t));
+  document.querySelectorAll('.cset').forEach(x=>x.classList.toggle('on',x.dataset.c===c));
+}));
+
+/* VALUE CURVE */
+(function(){
+  const factors=['Setup\nfacile','Italiano\n& supporto','Personal.\ntono','Prezzo\naccessib.','Multi-\npiattaf.','Qualità\nAI'];
+  const data={Mostry:[5,5,5,4.5,4.5,4],Intercom:[2.5,2,3,1.5,4,4.5],ChatGPT:[3,3,1,4.5,1.5,5],Tradiz:[2,2.5,2,3.5,2.5,2]};
+  const css=getComputedStyle(document.documentElement);
+  const C=n=>css.getPropertyValue(n).trim();
+  const colors={Mostry:'#F72585',Intercom:'#6C2BD9',ChatGPT:'#0F0E14',Tradiz:'#8A8398'};
+  const W=900,H=380,padL=46,padR=40,padT=26,padB=72,n=factors.length;
+  const x=i=>padL+(W-padL-padR)*(i/(n-1)), y=v=>padT+(H-padT-padB)*(1-v/5);
+  const svg=document.getElementById('chart'),grid=document.getElementById('grid'),labs=document.getElementById('labels'),lines=document.getElementById('lines');
+  for(let v=0;v<=5;v++){const gy=y(v);grid.innerHTML+=`<line class="${v===0?'axis0':'axis'}" x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}"/>`;grid.innerHTML+=`<text class="axlab" x="${padL-10}" y="${gy+4}" text-anchor="end">${v}</text>`;}
+  factors.forEach((f,i)=>{const parts=f.split('\n');let t=`<text class="axlab" x="${x(i)}" y="${H-padB+24}" text-anchor="middle">`;parts.forEach((p,k)=>{t+=`<tspan x="${x(i)}" dy="${k===0?0:13}">${p}</tspan>`;});t+='</text>';labs.innerHTML+=t;});
+  Object.keys(data).forEach(k=>{
+    const pts=data[k].map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+    const sw=k==='Mostry'?6:4;
+    lines.innerHTML+=`<polyline class="line-anim" points="${pts}" stroke="${colors[k]}" stroke-width="${sw}"/>`;
+    data[k].forEach((v,i)=>{const s=k==='Mostry'?12:9;lines.innerHTML+=`<rect class="mk" x="${x(i)-s/2}" y="${y(v)-s/2}" width="${s}" height="${s}" fill="${colors[k]}" stroke="#101010" stroke-width="2"/>`;});
+  });
+  const cio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){svg.classList.add('drawn');cio.disconnect();}});},{threshold:.3});
+  cio.observe(svg);
+})();
+</script>
+</body>
+</html>
